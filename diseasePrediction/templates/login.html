@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+    <title>Illness Detection - Login Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--
+
+TemplateMo 546 Sixteen Clothing
+
+https://templatemo.com/tm-546-sixteen-clothing
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="../static/assets/css/templatemo-sixteen.css" />
+    <link rel="stylesheet" href="../static/assets/css/owl.css" />
+  </head>
+
+  <body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+      <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <h2>Illness <em>Detection</em></h2>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" id="navbar_1">
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-heading contact-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-content">
+              <form>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label text-success col-form-label-lg">User Name</label>
+                  <input class="form-control" id="username-login" />
+
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label text-success col-form-label-lg">Password</label>
+                  <input type="password" class="form-control" id="password-login" />
+                </div>
+
+                <button type="button" id="sub">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="../static/assets/js/custom.js"></script>
+    <script src="../static/assets/js/owl.js"></script>
+    <script src="../static/assets/js/slick.js"></script>
+    <script src="../static/assets/js/isotope.js"></script>
+    <script src="../static/assets/js/accordions.js"></script>
+
+    <script type="text/javascript">
+
+      window.addEventListener("load", () => {
+        const loginBtn = document.getElementById("sub");
+        loginBtn.addEventListener("click", loginFunction);
+        fetch(`${window.origin}/get-userinfo`).then((response) => {
+          return response.json()
+        }).then((data) => {
+          if (data.authenticated) {
+            console.log("user is logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  
+                </a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/profile">Profile</a>
+                <span class="sr-only">(current)</span>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/prediction">Prediction</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+              </li>
+              `
+            //data.name will give you the name of current user
+          }
+          else {
+            console.log("user is not logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link active" href="/login">Log In</a>
+                <span class="sr-only">(current)</span>
+              </li>`
+            //do whatever you want here if no user is logged in.
+          }
+        })
+      })
+      const usernameLogin = document.getElementById("username-login");
+      const passwdLogin = document.getElementById("password-login");
+
+      function loginFunction(sub) {
+        console.log("functioncalled");
+        const userinfo = {
+          username: usernameLogin.value,
+          passwd: passwdLogin.value
+        }
+        fetch(`${window.origin}/loginData`, {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(userinfo),
+          cache: "no-cache",
+          headers: new Headers({
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          })
+        })
+          .then(function (response) {
+            if (response.status !== 200) {
+              console.log(`Looks like there was a problem. Status code: ${response.status}`);
+              return;
+            }
+            response.json().then(function (data) {
+              if (data.result == 'success') {
+                window.location = `${window.origin}/prediction`;
+              }
+              else {
+                alert("username or password incorrect");
+              }
+            });
+          })
+          .catch(function (error) {
+            console.log("Fetch error: " + error);
+          });
+      }
+
+    </script>
+  </body>
+
+</html>

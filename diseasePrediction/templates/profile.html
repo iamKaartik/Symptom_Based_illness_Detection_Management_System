@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet" />
+
+    <title>Illness Detection Home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- <link href="vendor/bootstrap/css/signup.css" rel="stylesheet"> -->
+    <link href="../static/vendor/bootstrap/css/profile.css" rel="stylesheet" />
+    <!--
+
+TemplateMo 546 Sixteen Clothing
+
+https://templatemo.com/tm-546-sixteen-clothing
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="../static/assets/css/templatemo-sixteen.css" />
+    <link rel="stylesheet" href="../static/assets/css/owl.css" />
+  </head>
+
+  <body>
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+      <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <h2>Illness <em>Detection</em></h2>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" id="navbar_1">
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/profile">Profile</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+              </li>
+               -->
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <h2>Hello</h2>
+    <div class="table-wrapper">
+      <table class="fl-table" id="profile-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Disease</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+
+      </table>
+      <h2 id="greeting">Hello Username</h2>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="../static/assets/js/custom.js"></script>
+    <script src="../static/assets/js/owl.js"></script>
+    <script src="../static/assets/js/slick.js"></script>
+    <script src="../static/assets/js/isotope.js"></script>
+    <script src="../static/assets/js/accordions.js"></script>
+
+    <script type="text/javascript">
+      const getProfileData = () => {
+        fetch(`${window.origin}/profileData`).then((response) => {
+          return response.json()
+        }).then((data) => {
+          console.log(data.diseases);
+          document.querySelector("#greeting").innerText = `User : ${data.username}`;
+          // Find a <table> element with id="myTable":
+          let table = document.getElementById("profile-table");
+          for (disease of data.diseases) {
+            // Create an empty <tr> element and add it to the 1st position of the table:
+            let row = table.insertRow(1);
+
+            // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+
+            // Add some text to the new cells:
+            cell1.innerHTML = disease.date;
+            cell2.innerHTML = disease.name;
+          }
+        });
+        fetch(`${window.origin}/get-userinfo`).then((response) => {
+          return response.json()
+        }).then((data) => {
+          if (data.authenticated) {
+            console.log("user is logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  
+                </a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/profile">Profile</a>
+                <span class="sr-only">(current)</span>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/prediction">Prediction</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+              </li>
+              `
+            //do whatever you want to do if user is logged in
+            console.log(data.name)
+            //data.name will give you the name of current user
+          }
+          else {
+            console.log("user is not logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Log In</a>
+              </li>`
+            //do whatever you want here if no user is logged in.
+          }
+        })
+      }
+      window.addEventListener('load', getProfileData);
+    </script>
+  </body>
+
+</html>

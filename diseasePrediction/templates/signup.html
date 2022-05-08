@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet">
+
+    <title>Illness Detection - SignUp Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/vendor/bootstrap/css/signup.css" rel="stylesheet">
+
+    <!--
+
+TemplateMo 546 Sixteen Clothing
+
+https://templatemo.com/tm-546-sixteen-clothing
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../static/assets/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="../static/assets/css/owl.css">
+
+  </head>
+
+  <body>
+
+    <!--  ***** Preloader Start ***** -->
+    <div id="preloader">
+      <div class="jumper">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <h2>Symptom Based <em>Illness Detection</em></h2>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" id="navbar_1">
+
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+
+
+    <div id="login-box">
+      <div class="left">
+        <h1>Sign up</h1>
+
+        <input type="text" name="username" id="one" placeholder="Username" />
+        <input type="text" name="email" id="two" placeholder="E-mail" />
+        <input type="password" name="password" id="three" placeholder="Password" />
+        <input type="password" name="password2" id="four" placeholder="Retype password" />
+
+        <button class="submit" id="sub" onclick="EnableDisable(this)">Sign Me Up</button>
+      </div>
+
+      <div class="right">
+        <span class="loginwith">Sign in with<br />social network</span>
+
+        <button class="social-signin facebook">Log in with facebook</button>
+        <button class="social-signin twitter">Log in with Twitter</button>
+        <button class="social-signin google">Log in with Google+</button>
+      </div>
+      <div class="or">OR</div>
+    </div>
+
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <!-- <p>Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
+            
+            - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a></p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="../static/assets/js/custom.js"></script>
+    <script src="../static/assets/js/owl.js"></script>
+    <script src="../static/assets/js/slick.js"></script>
+    <script src="../static//js/isotope.js"></script>
+    <script src="../static/assets/js/accordions.js"></script>
+
+
+    <script type="text/javascript">
+      function EnableDisable(sub) {
+        //Reference the Button.
+        var name = document.getElementById("one");
+        var email_ = document.getElementById("two");
+        var pass_ = document.getElementById("three");
+        var repass_ = document.getElementById("four");
+
+
+        if (pass_.value.trim() != repass_.value.trim()) {
+          alert("password does not match");
+        }
+        else {
+          const signup = {
+            username: name.value,
+            email: email_.value,
+            passwd: pass_.value,
+          }
+          fetch(`${window.origin}/register`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(signup),
+            cache: "no-cache",
+            headers: new Headers({
+              "content-type": "application/json",
+              "Access-Control-Allow-Origin": "*"
+            })
+          })
+            .then(function (response) {
+              if (response.status !== 200) {
+                console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                return;
+              }
+              response.json().then(function (data) {
+                if (data.result == "failure") {
+                  alert("username or email already exist");
+                }
+                else {
+                  alert("user successfully registered");
+                }
+              });
+            })
+            .catch(function (error) {
+              console.log("Fetch error: " + error);
+            });
+        }
+      };
+
+      function authentication() {
+        fetch(`${window.origin}/get-userinfo`).then((response) => {
+          return response.json()
+        }).then((data) => {
+          if (data.authenticated) {
+            console.log("user is logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  
+                </a>
+              </li>
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/profile">Profile</a>
+                <span class="sr-only">(current)</span>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/prediction">Prediction</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+              </li>
+              `
+            //data.name will give you the name of current user
+          }
+          else {
+            console.log("user is not logged in")
+            const navbar_0 = document.getElementById('navbar_1');
+            navbar_0.innerHTML = `<li class="nav-item">
+                <a class="nav-link" href="/">Home
+                  
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link active" href="/signup">Sign Up</a>
+                <span class="sr-only">(current)</span>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Log In</a>
+                
+              </li>`
+            //do whatever you want here if no user is logged in.
+          }
+        })
+      };
+      window.addEventListener("load", authentication);
+
+    </script>
+
+  </body>
+
+</html>
